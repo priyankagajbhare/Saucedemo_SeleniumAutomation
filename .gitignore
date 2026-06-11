@@ -19,6 +19,8 @@ Thumbs.db
 test-output/
 reports/
 logs/
+screenshots/
+videos/
 
 # Drivers (optional)
 *.exe

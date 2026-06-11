@@ -4,7 +4,7 @@
 
 	<listeners>
 		<listener
-			class-name="com.sachin.automation.listners.TestListener" />
+			class-name="com.automation.listners.TestListener" />
 	</listeners>
 
 	<test name="Smoke - Chrome">
@@ -15,12 +15,12 @@
 			</run>
 		</groups>
 		<classes>
-			<class name="com.sachin.automation.tests.LoginTest" />
-			<class name="com.sachin.automation.tests.InventoryTest" />
-			<class name="com.sachin.automation.tests.CartPageTest" />
-			<class name="com.sachin.automation.tests.CheckoutStepOneTest" />
-			<class name="com.sachin.automation.tests.CheckoutStepTwoTest" />
-			<class name="com.sachin.automation.tests.CheckoutCompleteTest" />
+			<class name="com.automation.tests.LoginTest" />
+			<class name="com.automation.tests.InventoryTest" />
+			<class name="com.automation.tests.CartPageTest" />
+			<class name="com.automation.tests.CheckoutStepOneTest" />
+			<class name="com.automation.tests.CheckoutStepTwoTest" />
+			<class name="com.automation.tests.CheckoutCompleteTest" />
 		</classes>
 	</test>
 </suite>
