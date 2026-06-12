@@ -16,23 +16,22 @@ public class LoginPage extends BasePage {
 		super(driver);
 	}
 
-	public LoginPage enterUsername(String user) {
+	public void enterUsername(String user) {
 		actionUtils.type(username, user, "Username Field");
-		return this;
 	}
 
-	public LoginPage enterPassword(String pass) {
+	public void enterPassword(String pass) {
 		actionUtils.type(password, pass, "Password Field");
-		return this;
 	}
 
-	public InventoryPage clickLogin() {
+	public void clickLogin() {
 		actionUtils.click(loginBtn, "Login Button");
-		return new InventoryPage(driver);
 	}
 
-	public InventoryPage loginAsValidUser(String user, String pass) {
-		return enterUsername(user).enterPassword(pass).clickLogin();
+	public void loginAsValidUser(String user, String pass) {
+		enterUsername(user);
+		enterPassword(pass);
+		clickLogin();
 	}
 
 	public String getErrorMessage() {
