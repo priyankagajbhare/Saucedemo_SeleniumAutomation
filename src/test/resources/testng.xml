@@ -16,11 +16,8 @@
 		</groups> -->
 		<classes>
 			<class name="com.automation.tests.LoginTest" />
-			<!-- <class name="com.automation.tests.InventoryTest" />
-			<class name="com.automation.tests.CartPageTest" />
-			<class name="com.automation.tests.CheckoutStepOneTest" />
-			<class name="com.automation.tests.CheckoutStepTwoTest" />
-			<class name="com.automation.tests.CheckoutCompleteTest" /> -->
+			<class name="com.automation.tests.InventoryTest" />
+			
 		</classes>
 	</test>
 </suite>

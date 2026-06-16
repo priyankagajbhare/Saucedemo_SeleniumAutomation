@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.openqa.selenium.support.ui.Select;
 
 public class ActionUtils {
 
@@ -63,6 +64,26 @@ public class ActionUtils {
 		} catch (Exception e) {
 			log.error("Failed to get all text contents from {}", elementName, e);
 			throw new RuntimeException(e);
+		}
+	}
+
+	public void selectOption(By locator, String option) {
+		try {
+			WebElement element = waitUtils.waitForElementVisible(locator);
+			Select select = new Select(element);
+			select.selectByVisibleText(option);
+		} catch (Exception e) {
+			log.error("Failed to select option from {}", locator, e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	public boolean isElementVisible(By locator, String elementName) {
+		try {
+			return waitUtils.waitForElementVisible(locator).isDisplayed();
+		} catch (Exception e) {
+			log.error("Failed to check if element is visible", e);
+			return false;
 		}
 	}
 }
