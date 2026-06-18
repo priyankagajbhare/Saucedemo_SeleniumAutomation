@@ -7,7 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,7 @@ public class DriverFactory {
 	public static void initDriver(String browser) {
 
 		WebDriver driverInstance;
+		boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
 		try {
 			switch (browser.toLowerCase()) {
@@ -42,7 +45,9 @@ public class DriverFactory {
 
 			log.info("Launching browser: {} | Thread: {} | Session starting", browser, Thread.currentThread().getId());
 
-			driverInstance.manage().window().maximize();
+			if (!isHeadless) {
+				driverInstance.manage().window().maximize();
+			}
 			driverInstance.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
 			tlDriver.set(driverInstance);
 
@@ -96,11 +101,24 @@ public class DriverFactory {
 
 	private static WebDriver initFirefox() {
 		WebDriverManager.firefoxdriver().setup();
-		return new FirefoxDriver();
+		FirefoxOptions options = new FirefoxOptions();
+
+		if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+			options.addArguments("-headless");
+		}
+
+		return new FirefoxDriver(options);
 	}
 
 	private static WebDriver initEdge() {
 		WebDriverManager.edgedriver().setup();
-		return new EdgeDriver();
+		EdgeOptions options = new EdgeOptions();
+
+		if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+			options.addArguments("--headless=new");
+			options.addArguments("--disable-gpu");
+		}
+
+		return new EdgeDriver(options);
 	}
 }
