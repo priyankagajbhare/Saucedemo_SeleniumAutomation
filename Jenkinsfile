@@ -12,7 +12,6 @@ pipeline {
 
     environment {
         CI = 'true'
-        PATH = '/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
     }
 
     stages {
@@ -24,14 +23,15 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh '''
-                    echo "PATH=$PATH"
-                    which java
+                bat '''
+                    @echo on
+                    echo PATH=%PATH%
+                    where java
                     java -version
-                    which mvn
+                    where mvn
                     mvn -version
-                    echo "Running tests on browser: ${BROWSER}"
-                    mvn clean test -Dbrowser=${BROWSER} -Dheadless=true
+                    echo Running tests on browser: %BROWSER%
+                    mvn clean test -Dbrowser=%BROWSER% -Dheadless=true
                 '''
             }
         }
@@ -40,14 +40,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'reports/**, target/**, test-output/**, screenshots/**', allowEmptyArchive: true
-            publishHTML(target: [
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'reports',
-                reportFiles: 'extent-report.html',
-                reportName: 'Extent HTML Report'
-            ])
+
         }
     }
 }
