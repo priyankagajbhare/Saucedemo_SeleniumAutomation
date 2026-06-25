@@ -10,18 +10,21 @@ import org.testng.Assert;
 
 public class CheckoutPage extends BasePage {
 
-	private static final Logger log = LoggerFactory.getLogger(CheckoutPage.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckoutPage.class);
 
-	private By checkoutPageTitle = By.cssSelector(".title");
+    private By checkoutPageTitle = By.cssSelector(".title");
     private By firstName = By.id("first-name");
     private By lastName = By.id("last-name");
     private By zipCode = By.id("postal-code");
     private By continueButton = By.id("continue");
     private By errorMessage = By.cssSelector("[data-test='error']");
+    private By cancelButton = By.id("cancel");
+    private By finishButton = By.id("finish");
+    private By completeHeader = By.cssSelector(".complete-header");
 
-	public CheckoutPage(WebDriver driver) {
-		super(driver);
-	}
+    public CheckoutPage(WebDriver driver) {
+        super(driver);
+    }
 
     private By itemNameLink (String itemName) {
         return By.xpath("//div[normalize-space()='" + itemName + "']");
@@ -46,4 +49,15 @@ public class CheckoutPage extends BasePage {
         Assert.assertTrue(actionUtils.isElementVisible(itemNameLink(itemName), "Item name in list for " + itemName));
     }
 
+    public void clickCancelButton() {
+        actionUtils.click(cancelButton, "Cancel Button");
+    }
+
+    public void clickFinishButton() {
+        actionUtils.click(finishButton, "Finish Button");
+    }
+
+    public void verifyCheckoutCompleteMessage() {
+        Assert.assertEquals(actionUtils.getText(completeHeader, "Checkout complete message"), "Thank you for your order!");
+    }
 }

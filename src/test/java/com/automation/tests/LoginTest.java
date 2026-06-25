@@ -101,4 +101,25 @@ public class LoginTest extends BaseTest {
 		Assert.assertTrue(loginPage.getErrorMessage().contains("Username and password do not match any user in this service"), "Error message not displayed");
 	}
 
-} 
+	@Test
+	public void logoutFromApplication() {
+		log.info("Starting test: logoutFromApplication");
+		LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+		loginPage.loginAsValidUser(ConfigReader.get("username"), ConfigReader.get("password"));
+		loginPage.logoutFromApplication();
+		log.info("Validating user is redirected to login page");
+		Assert.assertTrue(loginPage.isPageLoaded(), "Login page not loaded");
+	}
+
+	@Test
+	public void accessInventoryPageAfterLogoutUsingBrowserBackButton() {
+		log.info("Starting test: accessInventoryPageAfterLogoutUsingBrowserBackButton");
+		LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+		loginPage.loginAsValidUser(ConfigReader.get("username"), ConfigReader.get("password"));
+		loginPage.logoutFromApplication();
+		DriverFactory.getDriver().navigate().back();
+		log.info("Validating user is redirected to inventory page");
+		Assert.assertTrue(loginPage.getErrorMessage().contains("Epic sadface: You can only access \'/inventory.html\' when you are logged in."), "Error message not displayed");
+	}
+
+}

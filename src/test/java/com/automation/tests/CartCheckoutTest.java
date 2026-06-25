@@ -83,7 +83,57 @@ public class CartCheckoutTest extends BaseTest {
         CheckoutPage checkoutPage = new CheckoutPage(DriverFactory.getDriver());
         checkoutPage.enterUserDetails("Priya", "", "642002");
         checkoutPage.verifyErrorMessage("Error: Last Name is required");
-//        checkoutPage.enterUserDetails("Priya", "Kumar", "");
-//        checkoutPage.verifyErrorMessage("Error: Postal Code is required");
     }
+
+    @Test
+    public void completeOrderSuccessfully() {
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+        loginPage.loginAsValidUser(ConfigReader.get("username"), ConfigReader.get("password"));
+
+        InventoryPage inventoryPage = new InventoryPage(DriverFactory.getDriver());
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
+        cartPage.goToCartPage();
+        cartPage.verifyItemPresentInCart("Sauce Labs Backpack");
+        cartPage.proceedToCheckout();
+        CheckoutPage checkoutPage = new CheckoutPage(DriverFactory.getDriver());
+        checkoutPage.enterUserDetails("Priya", "Kumar", "642002");
+        checkoutPage.verifyItemPresentInList("Sauce Labs Backpack");
+        checkoutPage.clickFinishButton();
+        checkoutPage.verifyCheckoutCompleteMessage();
+    }
+
+    @Test
+    public void cancelOrderFromInformationPage() {
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+        loginPage.loginAsValidUser(ConfigReader.get("username"), ConfigReader.get("password"));
+
+        InventoryPage inventoryPage = new InventoryPage(DriverFactory.getDriver());
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
+        cartPage.goToCartPage();
+        cartPage.proceedToCheckout();
+        CheckoutPage checkoutPage = new CheckoutPage(DriverFactory.getDriver());
+        checkoutPage.clickCancelButton();
+        cartPage.verifyItemPresentInCart("Sauce Labs Backpack");
+    }
+
+    @Test
+    public void cartBadgeUpdateOnAddRemoveSequence() {
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+        loginPage.loginAsValidUser(ConfigReader.get("username"), ConfigReader.get("password"));
+
+        InventoryPage inventoryPage = new InventoryPage(DriverFactory.getDriver());
+
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.addToCart("Sauce Labs Bike Light");
+        inventoryPage.addToCart("Sauce Labs Bolt T-Shirt");
+        inventoryPage.verifyCartCount("3");
+        inventoryPage.removeFromCart("Sauce Labs Backpack");
+        inventoryPage.verifyCartCount("2");
+        inventoryPage.addToCart("Sauce Labs Backpack");
+        inventoryPage.verifyCartCount("3");
+    }
+
+
 }

@@ -11,6 +11,8 @@ public class LoginPage extends BasePage {
 	private By password = By.id("password");
 	private By loginBtn = By.id("login-button");
 	private By errorMessage = By.cssSelector("[data-test='error']");
+	private By menuButton = By.id("react-burger-menu-btn");
+	private By logoutButton = By.id("logout_sidebar_link");
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -40,5 +42,22 @@ public class LoginPage extends BasePage {
 
 	public boolean isErrorDisplayed() {
 		return getErrorMessage().contains("Epic sadface");
+	}
+
+	public void clickMenuButton() {
+		actionUtils.click(menuButton, "Menu Button");
+	}
+
+	public void clickLogoutButton() {
+		actionUtils.click(logoutButton, "Logout Button");
+	}
+
+	public void logoutFromApplication() {
+		clickMenuButton();
+		clickLogoutButton();
+	}
+
+	public boolean isPageLoaded() {
+		return waitUtils.waitForElementVisible(loginBtn).isDisplayed();
 	}
 }
