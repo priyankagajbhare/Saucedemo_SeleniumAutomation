@@ -43,14 +43,14 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'reports/**, target/**, test-output/**, screenshots/**', allowEmptyArchive: true
-            // publishHTML(target: [
-            //     allowMissing: true,
-            //     alwaysLinkToLastBuild: true,
-            //     keepAll: true,
-            //     reportDir: 'reports',
-            //     reportFiles: 'extent-report.html',
-            //     reportName: 'Extent HTML Report'
-            // ])
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'extent-report.html',
+                reportName: 'Extent HTML Report'
+            ])
         }
     }
 }
